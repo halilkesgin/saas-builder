@@ -1,5 +1,6 @@
-import { ReactNode } from "react";
-import { Navbar } from "./_components/navbar";
+import { ReactNode } from "react"
+
+import { Navbar } from "./_components/navbar"
 
 interface SiteLayoutProps {
     children: ReactNode
@@ -16,4 +17,4 @@ const SiteLayout = ({
     )
 }
 
-export default SiteLayout;
+export default SiteLayout

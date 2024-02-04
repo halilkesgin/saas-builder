@@ -1,4 +1,10 @@
-import Image from "next/image";
+import Image from "next/image"
+import Link from "next/link"
+import { Check } from "lucide-react"
+
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { pricingCards } from "@/lib/constants"
+import { cn } from "@/lib/utils"
 
 export default function Home() {
     return (
@@ -24,6 +30,66 @@ export default function Home() {
                     <div className="bottom-0 top-[50%] bg-gradient-to-t dark:from-background left-0 right-0 absolute z-10">
 
                     </div>
+                </div>
+            </section>
+            <section className="flex items-center justify-center flex-col gap-4 md:!mt-20 mt-[-40px]">
+                <h3 className="text-4xl text-center">
+                    Choose what fits you right
+                </h3>
+                <p className="text-muted-foreground text-center">
+                    Our straightforward pricing plans are tailored to meet your needs. If
+                    {" you're"} not <br />
+                    ready to commit you can get started for free.
+                </p>
+                <div className="flex justify-center gap-4 flex-wrap mt-6">
+                    {pricingCards.map((item) => (
+                        <Card
+                            key={item.title}
+                            className={cn(
+                                "w-[300px] flex flex-col justify-between",
+                                item.title === "Unlimited Saas" ? "border-2 border-primary" : ""
+                            )}
+                        >
+                            <CardHeader>
+                                <CardTitle className={cn(
+                                    item.title !== "Unlimited Saas" ? "text-muted-foreground" : ""
+                                )}>
+                                    {item.title}
+                                </CardTitle>
+                                <CardDescription>
+                                    {item.description}
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <span className="text-4xl font-bold">
+                                    {item.price}
+                                </span>
+                                <span>/m</span>
+                            </CardContent>
+                            <CardFooter className="flex flex-col items-center gap-4">
+                                <div>
+                                    {item.features.map((feature) => (
+                                        <div
+                                            key={feature}
+                                            className="flex gap-2 items-center"
+                                        >
+                                            <Check className="text-muted-foreground" />
+                                            <p>{feature}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                                <Link
+                                    href={`/agency?plan=${item.priceId}`}
+                                    className={cn(
+                                        "w-full text-center bg-primary p-2 rounded-md",
+                                        item.title !== "Unlimited Saas" ? "!bg-muted-foreground" : ""
+                                    )}
+                                >
+                                    Get started
+                                </Link>
+                            </CardFooter>
+                        </Card>
+                    ))}
                 </div>
             </section>
         </>
