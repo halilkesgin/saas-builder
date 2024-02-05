@@ -1,9 +1,14 @@
-import { getNotificationAndUser, verifyAndAcceptInvitation } from "@/lib/queries"
 import { currentUser } from "@clerk/nextjs"
 import { redirect } from "next/navigation"
 import { ReactNode } from "react"
-import UnauthorizedPage from "../unauthorized/page"
+
+import { getNotificationAndUser, verifyAndAcceptInvitation } from "@/lib/queries"
+import { Blur } from "@/components/blur"
+
 import { Sidebar } from "./_components/sidebar"
+import { Navbar } from "./_components/navbar"
+
+import UnauthorizedPage from "../unauthorized/page"
 
 interface AgencyIdLayoutProps {
     children: ReactNode
@@ -42,7 +47,12 @@ const AgencyIdLayout = async ({
                 type="agency"
             />
             <div className="md:pl-[300px]">
-                {children}
+                <Navbar notifications={allNotifications} />
+                <div className="relative">
+                    <Blur>
+                        {children}
+                    </Blur>
+                </div>
             </div>
         </div>
     )
