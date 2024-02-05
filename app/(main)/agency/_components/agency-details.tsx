@@ -44,7 +44,6 @@ export const AgencyDetails = ({
         zipCode: z.string().min(1),
         state: z.string().min(1),
         country: z.string().min(1),
-        agencyLogo: z.string().min(1)
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -60,7 +59,6 @@ export const AgencyDetails = ({
             zipCode: data?.zipCode,
             state: data?.state,
             country: data?.country,
-            agencyLogo: data?.agencyLogo,
         }
     })
 
@@ -109,7 +107,6 @@ export const AgencyDetails = ({
                     id: data?.id ? data.id : v4(),
                     customerId: data?.customerId || "",
                     address: values.address,
-                    agencyLogo: values.agencyLogo,
                     city: values.city,
                     companyPhone: values.companyPhone,
                     country: values.country,
@@ -179,24 +176,6 @@ export const AgencyDetails = ({
                 <CardContent>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                            <FormField
-                                disabled={isLoading}
-                                control={form.control}
-                                name="agencyLogo"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Agency Logo</FormLabel>
-                                        <FormControl>
-                                            <FileUpload
-                                              apiEndpoint="agencyLogo"
-                                              onChange={field.onChange}
-                                              value={field.value}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
                             <div className="flex md:flex-row gap-4">
                                 <FormField
                                     disabled={isLoading}
