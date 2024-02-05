@@ -1,4 +1,6 @@
-import { ReactNode } from "react"
+import React, { ReactNode } from "react"
+import { dark } from "@clerk/themes"
+import { ClerkProvider } from "@clerk/nextjs"
 
 import { Navbar } from "./_components/navbar"
 
@@ -10,10 +12,12 @@ const SiteLayout = ({
     children
 }: SiteLayoutProps) => {
     return (
-        <div className="h-full">
-            <Navbar />
-            {children}
-        </div>
+        <ClerkProvider appearance={{ baseTheme: dark }}>
+            <main className="h-full">
+                <Navbar />
+                {children}
+            </main>
+        </ClerkProvider>
     )
 }
 

@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { UserButton } from "@clerk/nextjs"
+import { User } from "@prisma/client"
 
 import { ModeToggle } from "@/components/mode-toggle"
 
@@ -12,7 +13,7 @@ export const Navbar = ({
     user
 }: NavbarProps) => {
     return (
-        <div className="sticky top-0 p-4 flex items-center justify-between z-10 bg-white dark:bg-background">
+        <div className="fixed top-0 right-0 left-0 flex items-center justify-between z-10">
             <aside className="flex items-center gap-2">
                 <Image
                     src="/assets/plura-logo.svg"
