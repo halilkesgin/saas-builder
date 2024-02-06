@@ -41,7 +41,7 @@ const AgencyIdLayout = async ({
     if (notifications) allNotifications = notifications
     
     return (
-        <div className="h-screen overflow-hidden">
+        <div className="h-screen ">
             <Sidebar 
                 id={params.agencyId}
                 type="agency"

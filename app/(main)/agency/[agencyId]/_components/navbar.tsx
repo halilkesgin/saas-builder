@@ -11,6 +11,7 @@ import { Role } from "@prisma/client"
 import { Card } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { ModeToggle } from "@/components/mode-toggle"
 
 interface NavbarProps {
     notifications: NotificationWithUser | []
@@ -50,7 +51,7 @@ export const Navbar = ({
                     <UserButton afterSignOutUrl="/" />
                     <Sheet>
                         <SheetTrigger>
-                            <div className="rounded-full w-8 h-8 bg-primary flex items-center justify-center text-white">
+                            <div className="rounded-full w-9 h-9 bg-primary flex items-center justify-center text-white">
                                 <Bell className="h-4 w-4" />
                             </div>
                         </SheetTrigger>
@@ -108,6 +109,7 @@ export const Navbar = ({
                             )}
                         </SheetContent>
                     </Sheet>
+                    <ModeToggle />
                 </div>
             </div>
         </>
