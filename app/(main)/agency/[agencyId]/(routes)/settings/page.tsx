@@ -39,8 +39,6 @@ const SettingsPage = async ({
 
     const subAccounts = agencyDetails.SubAccount
 
-
-
     return (
         <div className="flex lg:flex-row flex-col gap-4">
            <AgencyDetails 
