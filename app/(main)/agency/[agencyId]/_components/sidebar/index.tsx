@@ -4,7 +4,7 @@ import { MenuOptions } from "./menu-options"
 
 interface SidebarProps {
     id: string
-    type: "agency" | "subaccount"
+    type: "agency" | "subAccount"
 }
 
 export const Sidebar = async ({
@@ -25,12 +25,6 @@ export const Sidebar = async ({
     if (!details) return
 
     let sidebarLogo = "/assets/plura-logo.svg"
-
-    if (!isWhiteLabeledAgency) {
-        if (type === "subaccount") {
-            sidebarLogo = user?.Agency.SubAccount.find((subaccount) => subaccount.id === id)?.subAccountLogo || ""
-        }
-    }
 
     const sidebarOptions = type === "agency" ? user.Agency.SidebarOption || [] : user.Agency.SubAccount.find((subaccount) => subaccount.id === id)?.SidebarOption || []
 
