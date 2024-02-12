@@ -21,6 +21,7 @@ import { CheckIcon, ChevronsUpDownIcon, Loader2, User2 } from "lucide-react"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { TagCreator } from "@/components/tag-creator"
 
 interface TicketFormProps {
     laneId: string
@@ -191,11 +192,11 @@ export const TicketForm = ({
                             )}
                         />
                         <h3>Add tags</h3>
-                        {/* <TagCreator
+                         <TagCreator
                             subAccountId={subAccountId}
                             getSelectedTags={setTags}
                             defaultTags={defaultData.ticket?.Tags || []}
-                        /> */}
+                        />
                         <FormLabel>Assigned To Team Member</FormLabel>
                         <Select
                             onValueChange={setAssignedTo}

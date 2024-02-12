@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Edit, MoreVertical, Plus, Trash2 } from "lucide-react"
 import { TicketForm } from "./ticket-form"
+import { PipelineTicket } from "./pipeline-ticket"
 
 interface PipelineLaneProps {
     setAllTickets: Dispatch<SetStateAction<TicketWithTags>>
@@ -168,9 +169,14 @@ export const PipelineLane = ({
                                                     className="mt-2"
                                                 >
                                                     {tickets.map((ticket, index) => (
-                                                        <div key={ticket.id}>
-
-                                                        </div>
+                                                        <PipelineTicket 
+                                                            allTickets={allTickets}
+                                                            setAllTickets={setAllTickets}
+                                                            subAccountId={subAccountId}
+                                                            ticket={ticket}
+                                                            key={ticket.id.toString()}
+                                                            index={index}
+                                                        />
                                                     ))}
                                                     {provided.placeholder}
                                                 </div>
