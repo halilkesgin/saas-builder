@@ -45,7 +45,7 @@ const formSchema = z.object({
 
 interface SubAccountDetailsProps {
   agencyDetails: Agency
-  details?: Partial<SubAccount>
+  details?: Partial<SubAccount> | null
   userId: string
   userName: string
 }
