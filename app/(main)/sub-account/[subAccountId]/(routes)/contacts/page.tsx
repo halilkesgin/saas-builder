@@ -63,7 +63,7 @@ const ContactsPage = async ({
                 Contacts
             </h1>
             <CreateContactButton 
-                
+                subAccountId={params.subAccountId}
             />
             <Table>
                 <TableHeader>
