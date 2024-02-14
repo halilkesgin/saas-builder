@@ -2,6 +2,7 @@ import * as z from "zod"
 import { Role, Notification, Prisma, Lane, Ticket, Tag, User, Contact} from "@prisma/client"
 import { _getTicketsWithAllRelations, getAuthUserDetails, getMedia, getPipelineDetails, getTicketsWithTags, getUserPermissions } from "./queries"
 import { db } from "./db"
+import Stripe from "stripe"
 
 export type NotificationWithUser = ({
     User: {
@@ -90,3 +91,25 @@ export const ContactUserFormSchema = z.object({
     name: z.string().min(1),
     email: z.string().email(),
 })
+
+export type Address = {
+    city: string
+    country: string
+    line1: string
+    postal_code: string
+    state: string
+}
+
+export type ShippingInfo = {
+    address: Address
+    name: string
+}
+
+export type StripeCustomerType = {
+    email: string
+    name: string
+    shipping: ShippingInfo
+    address: Address
+}
+
+export type PricesList = Stripe.ApiList<Stripe.Price>
