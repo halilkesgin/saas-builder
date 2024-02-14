@@ -21,7 +21,7 @@ const AgencyPage = async ({
 
     if (agencyId) {
         if (user?.role === "SUBACCOUNT_GUEST" || user?.role === "SUBACCOUNT_USER") {
-            return redirect("/subaccount")
+            return redirect("/sub-account")
         } else if (user?.role === "AGENCY_OWNER" || user?.role === "AGENCY_ADMIN") {
             if (searchParams.plan) {
                 return redirect(`/agency/${agencyId}/billing?=${searchParams.plan}`)

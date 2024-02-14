@@ -158,7 +158,7 @@ export const MenuOptions = ({
                                                 <CommandItem key={subAccount.id}>
                                                     {defaultOpen ? (
                                                         <Link
-                                                            href={`/subaccount/${subAccount.id}`}
+                                                            href={`/sub-account/${subAccount.id}`}
                                                             className="flex gap-4 w-full h-full"
                                                         >
                                                             <div className="relative w-16">
@@ -179,7 +179,7 @@ export const MenuOptions = ({
                                                     ) : (
                                                         <SheetClose asChild>
                                                             <Link
-                                                                href={`/subaccount/${subAccount.id}`}
+                                                                href={`/sub-account/${subAccount.id}`}
                                                                 className="flex gap-4 w-full h-full"
                                                             >
                                                                 <div className="relative w-16">
