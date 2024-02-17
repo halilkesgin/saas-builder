@@ -8,7 +8,8 @@ import { Agency, Lane, Plan, Prisma, Role, SubAccount, Tag, Ticket, User } from 
 import { db } from "./db"
 import { v4 } from "uuid"
 import { SubAccountDetails } from "@/app/(main)/agency/[agencyId]/_components/sub-account-details"
-import { CreateFunnelFormSchema, CreateMediaType } from "./types"
+import { CreateFunnelFormSchema, CreateMediaType, UpsertFunnelPage } from "./types"
+import { revalidatePath } from "next/cache"
 
 export const getAuthUserDetails = async () => {
     const user = await currentUser()
@@ -278,33 +279,33 @@ export const upsertAgency = async (agency: Agency, price?: Plan) => {
                 SidebarOption: {
                     create: [
                         {
-                            name: 'Dashboard',
-                            icon: 'category',
+                            name: "Dashboard",
+                            icon: "category",
                             link: `/agency/${agency.id}`,
                         },
                         {
-                            name: 'Launch pad',
-                            icon: 'clipboardIcon',
+                            name: "Launch pad",
+                            icon: "clipboardIcon",
                             link: `/agency/${agency.id}/launch-pad`,
                         },
                         {
-                            name: 'Billing',
-                            icon: 'payment',
+                            name: "Billing",
+                            icon: "payment",
                             link: `/agency/${agency.id}/billing`,
                         },
                         {
-                            name: 'Settings',
-                            icon: 'settings',
+                            name: "Settings",
+                            icon: "settings",
                             link: `/agency/${agency.id}/settings`,
                         },
                         {
-                            name: 'Sub Accounts',
-                            icon: 'person',
+                            name: "Sub Accounts",
+                            icon: "person",
                             link: `/agency/${agency.id}/all-subaccounts`,
                         },
                         {
-                            name: 'Team',
-                            icon: 'shield',
+                            name: "Team",
+                            icon: "shield",
                             link: `/agency/${agency.id}/team`,
                         },
                     ],
@@ -343,10 +344,10 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
       Agency: {
         id: subAccount.agencyId,
       },
-      role: 'AGENCY_OWNER',
+      role: "AGENCY_OWNER",
     },
   })
-  if (!agencyOwner) return console.log('🔴Erorr could not create subaccount')
+  if (!agencyOwner) return console.log("🔴Erorr could not create subaccount")
   const permissionId = v4()
   const response = await db.subAccount.upsert({
     where: { id: subAccount.id },
@@ -365,48 +366,48 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
         },
       },
       Pipeline: {
-        create: { name: 'Lead Cycle' },
+        create: { name: "Lead Cycle" },
       },
       SidebarOption: {
         create: [
           {
-            name: 'Launch pad',
-            icon: 'clipboardIcon',
+            name: "Launch pad",
+            icon: "clipboardIcon",
             link: `/sub-account/${subAccount.id}/launch-pad`,
           },
           {
-            name: 'Settings',
-            icon: 'settings',
+            name: "Settings",
+            icon: "settings",
             link: `/sub-account/${subAccount.id}/settings`,
           },
           {
-            name: 'Funnels',
-            icon: 'pipelines',
+            name: "Funnels",
+            icon: "pipelines",
             link: `/sub-account/${subAccount.id}/funnels`,
           },
           {
-            name: 'Media',
-            icon: 'database',
+            name: "Media",
+            icon: "database",
             link: `/sub-account/${subAccount.id}/media`,
           },
           {
-            name: 'Automations',
-            icon: 'chip',
+            name: "Automations",
+            icon: "chip",
             link: `/sub-account/${subAccount.id}/automations`,
           },
           {
-            name: 'Pipelines',
-            icon: 'flag',
+            name: "Pipelines",
+            icon: "flag",
             link: `/sub-account/${subAccount.id}/pipelines`,
           },
           {
-            name: 'Contacts',
-            icon: 'person',
+            name: "Contacts",
+            icon: "person",
             link: `/sub-account/${subAccount.id}/contacts`,
           },
           {
-            name: 'Dashboard',
-            icon: 'category',
+            name: "Dashboard",
+            icon: "category",
             link: `/sub-account/${subAccount.id}`,
           },
         ],
@@ -907,4 +908,88 @@ export const upsertContact = async (contact: Prisma.ContactUncheckedCreateInput)
         create: contact
     })
     return response
+}
+
+export const getFunnels = async (subAccountId: string) => {
+    const funnels = await db.funnel.findMany({
+        where: { 
+            subAccountId
+        },
+        include: { 
+            FunnelPages: true 
+        },
+    })
+
+    return funnels
+}
+
+export const getFunnel = async (funnelId: string) => {
+    const funnel = await db.funnel.findUnique({
+        where: { 
+            id: funnelId 
+        },
+        include: {
+            FunnelPages: {
+                orderBy: {
+                    order: "asc",
+                },
+            },
+        },
+    })
+    return funnel
+}
+
+export const upsertFunnelPage = async (
+    subAccountId: string,
+    funnelPage: UpsertFunnelPage,
+    funnelId: string
+) => {
+    if (!subAccountId || !funnelId) return
+    
+    const response = await db.funnelPage.upsert({
+        where: { 
+            id: funnelPage.id || ""
+        },
+        update: { ...funnelPage },
+        create: {
+            ...funnelPage,
+            content: funnelPage.content ? funnelPage.content : JSON.stringify([
+                {
+                    content: [],
+                    id: "__body",
+                    name: "Body",
+                    styles: { backgroundColor: "white" },
+                    type: "__body",
+                },
+            ]),
+        funnelId,
+        },
+    })
+    revalidatePath(`/sub-account/${subAccountId}/funnels/${funnelId}`, "page")
+    return response
+}
+
+export const deleteFunnelPage = async (funnelPageId: string) => {
+    const response = await db.funnelPage.delete({ 
+        where: { 
+            id: funnelPageId 
+        } 
+    })
+
+    return response
+}
+
+export const updateFunnelProducts = async (
+    products: string,
+    funnelId: string
+) => {
+    const data = await db.funnel.update({
+        where: { 
+            id: funnelId 
+        },
+        data: { 
+            liveProducts: products 
+        },
+    })
+    return data
 }
