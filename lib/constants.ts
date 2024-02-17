@@ -212,3 +212,17 @@ export const addOnProducts = [
         id: "prod_PYx8isA87X9e1N"
     }
 ]
+
+export type EditorButtons = 
+    | "text" 
+    | "container"
+    | "section"
+    | "contactForm"
+    | "paymentForm"
+    | "link"
+    | "2Col"
+    | "video"
+    | "__body"
+    | "image"
+    | null
+    | "3Col"

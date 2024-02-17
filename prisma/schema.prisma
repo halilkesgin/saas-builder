@@ -292,7 +292,6 @@ model Funnel {
     description   String?
     published     Boolean      @default(false)
     subDomainName String?      @unique
-    favicon       String?      @db.Text
     subAccountId  String
     SubAccount    SubAccount   @relation(fields: [subAccountId], references: [id], onDelete: Cascade)
     FunnelPages   FunnelPage[]

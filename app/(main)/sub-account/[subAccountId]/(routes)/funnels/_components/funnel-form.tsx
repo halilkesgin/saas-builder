@@ -47,7 +47,6 @@ export const FunnelForm: React.FC<CreateFunnelProps> = ({
         defaultValues: {
             name: defaultData?.name || "",
             description: defaultData?.description || "",
-            favicon: defaultData?.favicon || "",
             subDomainName: defaultData?.subDomainName || "",
         },
     })
@@ -56,7 +55,6 @@ export const FunnelForm: React.FC<CreateFunnelProps> = ({
         if (defaultData) {
             form.reset({
                 description: defaultData.description || "",
-                favicon: defaultData.favicon || "",
                 name: defaultData.name || "",
                 subDomainName: defaultData.subDomainName || "",
             })
@@ -152,24 +150,6 @@ export const FunnelForm: React.FC<CreateFunnelProps> = ({
                                             {...field}
                                         />
                                     </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            disabled={isLoading}
-                            control={form.control}
-                            name="favicon"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Favicon</FormLabel>
-                                    <FormControl>
-                                        <FileUpload
-                                            apiEndpoint="subaccountLogo"
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
