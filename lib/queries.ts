@@ -1002,3 +1002,12 @@ export const getFunnelPageDetails = async (funnelPageId: string) => {
     })
     return response
 }
+
+export const getSubaccountDetails = async (subAccountId: string) => {
+    const response = await db.subAccount.findUnique({
+        where: {
+            id: subAccountId,
+        },
+    })
+    return response
+}

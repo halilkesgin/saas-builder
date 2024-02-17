@@ -1,5 +1,10 @@
 import { EditorElement } from "@/components/providers/editor/editor-provider"
 import { TextComponent } from "./text"
+import Container from "./container"
+import { ContactFormComponent } from "./contact-form"
+import { Checkout } from "./checkout"
+import { LinkComponent } from "./link"
+import { VideoComponent } from "./video"
 
 interface RecursiveProps {
     element: EditorElement

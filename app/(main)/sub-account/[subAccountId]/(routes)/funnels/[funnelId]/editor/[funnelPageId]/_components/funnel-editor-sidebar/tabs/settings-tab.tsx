@@ -103,12 +103,12 @@ export const SettingsTab = (props: Props) => {
 						!Array.isArray(state.editor.selectedElement.content) && (
 					  		<div className="flex flex-col gap-2">
 								<p className="text-muted-foreground">Link Path</p>
-								{/* <Input
+								<Input
 								  	id="href"
 								  	placeholder="https:domain.example.com/pathname"
 								  	onChange={handleChangeCustomValues}
 								  	value={state.editor.selectedElement.content.href}
-								/> */}
+								/>
 					  		</div>
 						)
 					}
