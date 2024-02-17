@@ -2,6 +2,8 @@ import { Blur } from "@/components/blur"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { db } from "@/lib/db"
+import { stripe } from "@/lib/stripe"
+import { getStripeOAuthLink } from "@/lib/utils"
 import { CheckCircle } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -39,8 +41,36 @@ const LaunchPadPage = async ({
         subAccountDetails.name &&
         subAccountDetails.state &&
         subAccountDetails.zipCode
+    
 
+    const stripeOAuthLink = getStripeOAuthLink(
+        "subAccount",
+        `launch-pad___${subAccountDetails.id}`
+    )
 
+    let connectedStripeAccount = false
+
+    if (searchParams.code) {
+        if (!subAccountDetails.connectAccountId) {
+            try {
+                const response = await stripe.oauth.token({
+                    grant_type: "authorization_code",
+                    code: searchParams.code
+                })
+                await db.subAccount.update({
+                    where: {
+                        id: params.subAccountId,
+                    },
+                    data: {
+                        connectAccountId: response.stripe_user_id
+                    }
+                })
+                connectedStripeAccount= true
+            } catch {
+                console.log("Could not connect stripe account.")
+            }
+        }
+    }
 
     return (
         <Blur
@@ -88,6 +118,16 @@ const LaunchPadPage = async ({
                                         Connect your stripe account to accept payments. Strip is used to run payouts.
                                     </p>
                                 </div>
+                                {subAccountDetails.connectAccountId || connectedStripeAccount ? (
+                                    <CheckCircle className="h-4 w-4 text-primary p-2 flex-shrink-0" />
+                                ) : (
+                                    <Link
+                                        href={stripeOAuthLink}
+                                        className="bg-primary py-2 px-4 rounded-md text-white"
+                                    >
+                                        Start
+                                    </Link>
+                                )}
                             </div>
                             <div className="flex justify-between items-center w-full h-20 border p-4 rounded-lg">
                                 <div className="flex items-center gap-4">

@@ -67,7 +67,7 @@ const FormSchema = z.object({
   agencyLogo: z.string().min(1),
 })
 
-const AgencyDetails = ({ data }: Props) => {
+export const AgencyDetails = ({ data }: Props) => {
   const { toast } = useToast()
   const router = useRouter()
   const [deletingAgency, setDeletingAgency] = useState(false)
@@ -454,5 +454,3 @@ const AgencyDetails = ({ data }: Props) => {
     </AlertDialog>
   )
 }
-
-export default AgencyDetails
