@@ -993,3 +993,12 @@ export const updateFunnelProducts = async (
     })
     return data
 }
+
+export const getFunnelPageDetails = async (funnelPageId: string) => {
+    const response = await db.funnelPage.findUnique({
+        where: {
+            id: funnelPageId,
+        },
+    })
+    return response
+}
